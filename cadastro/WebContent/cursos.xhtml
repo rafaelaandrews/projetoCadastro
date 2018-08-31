@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+	
+		<f:metadata>
+			<f:viewParam name="cursoId" value="#{cursoBean.curso.id}" />
+			<f:viewAction action="#{cursoBean.carregarCursoPelaId}" if="#{param.cursoId != null}" />
+		</f:metadata>
+
+		<ui:define name="conteudo">
+			<h:form id="formCurso">
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados do Curso">
+					<p:panelGrid columns="2">
+
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{cursoBean.curso.nome}"
+							required="true" requiredMessage="Nome obrigatório" >
+							<f:validateLength maximum="40" />
+							<f:ajax event="blur" render="messages" />
+						</p:inputText>
+
+						<p:outputLabel value="Data de Inicio:" for="dataInicio" />
+						<p:calendar id="dataInicio" value="#{cursoBean.curso.dataInicio.time}" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+						
+						<p:outputLabel value="Selecione o dia da Semana:" for="diaSemana" />
+						<p:selectOneMenu value="#{cursoBean.curso.diaSemana}" id="diaSemana" style="width: 170px;" required="true">
+							<f:selectItem itemLabel="Domingo" itemValue="Domingo"/>
+							<f:selectItem itemLabel="Segunda" itemValue="Segunda"/>
+							<f:selectItem itemLabel="Terça" itemValue="Terça"/>
+							<f:selectItem itemLabel="Quarta" itemValue="Quarta"/>
+							<f:selectItem itemLabel="Quinta" itemValue="Quinta"/>
+							<f:selectItem itemLabel="Sexta" itemValue="Sexta"/>
+							<f:selectItem itemLabel="Sábado" itemValue="Sábado"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Selecione o professor:" for="professor" />
+						<p:selectOneMenu value="#{cursoBean.professorId}" id="professor" style="width: 170px;">
+							<f:selectItems value="#{cursoBean.professores}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="Gravar Professor" action="#{cursoBean.gravarProfessor}" 
+								process="@this professor" >
+						</p:commandButton>
+						
+					</p:panelGrid>
+
+				</p:fieldset>
+					<br />
+				<p:fieldset style="text-align:center;">
+					<p:commandButton value="Gravar curso" action="#{cursoBean.gravar}" process="@form" 
+							update="@form :formTabelaCursos:tabelaCursos"  />
+				</p:fieldset>
+			</h:form>
+
+			<br />
+	
+			<h:form id="formTabelaCursos">
+			<p:dataTable value="#{cursoBean.cursos}" var="curso" id="tabelaCursos" paginator="true" rows="5">
+				<f:facet name="header">Cursos</f:facet>
+				
+				<p:column headerText="Nome" sortBy="#{curso.nome}" filterBy="#{curso.nome}" filterMatchMode="contains">
+					<h:outputText value="#{curso.nome}" />
+				</p:column>
+
+				<p:column headerText="Data de Inicio" sortBy="#{curso.dataInicio.time}" filterBy="#{curso.dataInicio.time}" filterMatchMode="contains">
+					<h:outputText value="#{curso.dataInicio.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Dia da Semana" filterBy="#{curso.diaSemana}" filterMatchMode="contains">
+					<h:outputText value="#{curso.diaSemana}" />
+				</p:column>				
+				
+				<p:column headerText="Alterar">
+					<p:commandButton update=":formCurso" process="@this" value="alterar" actionListener="#{cursoBean.carregar(curso)}" icon="fa fa-fw fa-edit" />
+				</p:column>					
+				
+				<p:column headerText="Remover">
+					<p:commandButton update="@form" process="@this" value="remover" actionListener="#{cursoBean.remover(curso)}" icon="fa fa-fw fa-remove" />
+				</p:column>	
+			</p:dataTable>
+			</h:form>			
+		</ui:define>
+	</ui:composition>
+
+</html>
