@@ -29,7 +29,7 @@ public class LoginBean implements Serializable{
 		boolean existe = new UsuarioDao().existe(this.usuario);
 		if(existe ) {
 			context.getExternalContext().getSessionMap().put("usuarioLogado", this.usuario);
-			return "aluno?faces-redirect=true";
+			return "index?faces-redirect=true";
 		}
 		
 		context.getExternalContext().getFlash().setKeepMessages(true);

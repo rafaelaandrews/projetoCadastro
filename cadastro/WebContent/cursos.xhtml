@@ -18,7 +18,7 @@
 				<p:messages id="messages" />
 
 				<p:fieldset legend="Dados do Curso">
-					<p:panelGrid columns="2">
+					<h:panelGrid columns="2">
 
 						<p:outputLabel value="Nome:" for="nome" />
 						<p:inputText id="nome" value="#{cursoBean.curso.nome}"
@@ -49,7 +49,7 @@
 								process="@this professor" >
 						</p:commandButton>
 						
-					</p:panelGrid>
+					</h:panelGrid>
 
 				</p:fieldset>
 					<br />
@@ -65,26 +65,27 @@
 			<p:dataTable value="#{cursoBean.cursos}" var="curso" id="tabelaCursos" paginator="true" rows="5">
 				<f:facet name="header">Cursos</f:facet>
 				
-				<p:column headerText="Nome" sortBy="#{curso.nome}" filterBy="#{curso.nome}" filterMatchMode="contains">
+				<p:column headerText="Nome" sortBy="#{curso.nome}" filterBy="#{curso.nome}" filterMatchMode="contains" style="text-align:center;">
 					<h:outputText value="#{curso.nome}" />
 				</p:column>
 
-				<p:column headerText="Data de Inicio" sortBy="#{curso.dataInicio.time}" filterBy="#{curso.dataInicio.time}" filterMatchMode="contains">
+				<p:column headerText="Data de Inicio" sortBy="#{curso.dataInicio.time}" filterBy="#{curso.dataInicio.time}" 
+					filterMatchMode="contains" style="text-align:center;">
 					<h:outputText value="#{curso.dataInicio.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy"
 							timeZone="America/Sao_Paulo" />
 					</h:outputText>
 				</p:column>
 				
-				<p:column headerText="Dia da Semana" filterBy="#{curso.diaSemana}" filterMatchMode="contains">
+				<p:column headerText="Dia da Semana" filterBy="#{curso.diaSemana}" filterMatchMode="contains" style="text-align:center;">
 					<h:outputText value="#{curso.diaSemana}" />
 				</p:column>				
 				
-				<p:column headerText="Alterar">
+				<p:column headerText="Alterar" style="text-align:center;">
 					<p:commandButton update=":formCurso" process="@this" value="alterar" actionListener="#{cursoBean.carregar(curso)}" icon="fa fa-fw fa-edit" />
 				</p:column>					
 				
-				<p:column headerText="Remover">
+				<p:column headerText="Remover" style="text-align:center;">
 					<p:commandButton update="@form" process="@this" value="remover" actionListener="#{cursoBean.remover(curso)}" icon="fa fa-fw fa-remove" />
 				</p:column>	
 			</p:dataTable>

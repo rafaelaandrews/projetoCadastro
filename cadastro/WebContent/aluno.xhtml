@@ -4,7 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
 
 	<ui:composition template="_template.xhtml">
 	
@@ -15,12 +16,10 @@
 
 		<ui:define name="conteudo">
 			<h:form id="formAluno">
-
 				<p:messages id="messages" />
 
 				<p:fieldset legend="Dados do Aluno" >
-					<p:panelGrid columns="2">
-
+					<h:panelGrid columns="2">
 						<p:outputLabel value="Nome:" for="nome" />
 						<p:inputText id="nome" value="#{alunoBean.aluno.nome}"
 							required="true" requiredMessage="Nome obrigatório" >
@@ -29,57 +28,39 @@
 						</p:inputText>
 
 						<p:outputLabel value="CPF:" for="cpf" />
-						<p:inputMask id="cpf" value="#{alunoBean.aluno.cpf}" mask="999.999.999-99"/>
+						<p:inputMask id="cpf" value="#{alunoBean.aluno.cpf}" mask="999.999.999-99" required="true"/>
 
 						<p:outputLabel value="email:" for="email"/>
 						<p:inputText id="email" value="#{alunoBean.aluno.email}" required="true" validatorMessage="Email inválido">
 							<f:attribute name="type" value="email" />
+							<f:passThroughAttribute name="placeholder" value=" " />
+							<f:validateRegex pattern=".+@.+" />
+							<f:ajax event="blur" render="messageEmail" />
 					    </p:inputText>
 
 						<p:outputLabel value="Data de Nascimento:" for="dataNascimento" />
-						<p:calendar id="dataNascimento" value="#{alunoBean.aluno.dataNascimento.time}" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+						<p:calendar id="dataNascimento" value="#{alunoBean.aluno.dataNascimento.time}" timeZone="America/Sao_Paulo" 
+							pattern="dd/MM/yyyy" mask="true" required="true"/>
 						
 						<p:outputLabel value="Telefone:" for="telefone"/>
 						<p:inputMask id="telefone" value="#{alunoBean.aluno.telefone}" mask="(99) 99999-9999" required="true" />
-						
-					</p:panelGrid>
 
-				</p:fieldset>
-				<br/>
-				<p:fieldset legend="Dados do Professor">
-
-					<p:panelGrid columns="4">
 						<p:outputLabel value="Selecione o professor:" for="professor" />
-						<p:selectOneMenu value="#{alunoBean.professorId}" id="professor">
-							<f:selectItems value="#{alunoBean.professores}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor.id}" />
+						<p:selectOneMenu value="#{alunoBean.professorId}" id="professor" style="width: 170px;">
+							<f:selectItems value="#{alunoBean.professores}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor.id}" 
+								actionListener="#{alunoBean.gravarProfessor}" process="@this professor"/>
 						</p:selectOneMenu>
-						<p:commandButton value="Gravar Professor" action="#{alunoBean.gravarProfessor}" 
-								process="@this professor" update="tabelaProfessores">
-						</p:commandButton>
-		
-						<p:commandLink value="ou cadastrar novo professor" action="#{alunoBean.formProfessor}" immediate="true" 
-									update="@all"/>
-					</p:panelGrid>
-					
-					<p:dataTable value="#{alunoBean.professoresDoAluno}" var="professor" id="tabelaProfessores" emptyMessage="Nenhum professor selecionado">
-						<p:column>
-							<h:outputText value="#{professor.nome}" />
-						</p:column>
-						<p:column>
-							<p:commandLink value="X" action="#{alunoBean.removerProfessorDoAluno(professor)}" update="tabelaProfessores" process="@this"/>
-						</p:column>
-					</p:dataTable>
+
+					</h:panelGrid>
 				</p:fieldset>
-					<br />
+				<br />
 				<p:fieldset style="text-align:center;">
 					<p:commandButton value="Gravar Aluno" action="#{alunoBean.gravar}" process="@form" 
 							update="@form :formTabelaAlunos:tabelaAlunos"  />
 				</p:fieldset>
 			</h:form>
-			
 			<br />
 			<br />
-	
 			<h:form id="formTabelaAlunos">
 			<p:dataTable value="#{alunoBean.alunos}" var="aluno" id="tabelaAlunos" paginator="true" rows="5">
 				<f:facet name="header">Alunos</f:facet>

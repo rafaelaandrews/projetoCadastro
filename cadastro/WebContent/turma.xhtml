@@ -4,10 +4,76 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
 
 	<ui:composition template="_template.xhtml">
+		
+		<f:metadata>
+			<f:viewParam name="alunoId" value="#{alunoBean.aluno.id}" />
+				<f:viewAction action="#{alunoBean.carregarAlunoPelaId}" if="#{param.alunoId != null}" />
+			<f:viewParam name="cursoId" value="#{cursoBean.curso.id}" />
+				<f:viewAction action="#{cursoBean.carregarCursoPelaId}" if="#{param.cursoId != null}" />
+			<f:viewParam name="professorId" value="#{professorBean.professorId}" />
+				<f:viewAction action="#{professorBean.carregarProfessorPelaId}" if="#{param.professorId != null}" />
+		</f:metadata>			
+	
+		<ui:define name="conteudo">
+			<h:form id="formTurma">
+				<p:fieldset>
+					<h:panelGrid columns="1" cellpadding="3">
+				        <p:selectOneMenu value="#{cursoBean.curso.id}" id="curso" label="Selecione o curso" style="width: 170px;">
+							<f:selectItems value="#{cursoBean.cursos}" var="curso" itemLabel="#{curso.nome}" itemValue="#{curso.id}" />
+						</p:selectOneMenu>
 
+						<p:selectOneMenu value="#{professorBean.professor.id}" id="professor" label="Selecione o professor" style="width: 170px;">
+							<f:selectItems value="#{professorBean.professores}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor.id}" />
+						</p:selectOneMenu>
+							
+						<p:selectCheckboxMenu value="#{alunoBean.aluno.id}"  id="aluno" label="Selecione alunos" multiple="true"
+                              filter="true" filterMatchMode="contains" style="width: 205px;" >
+						   	<f:selectItems value="#{alunoBean.alunos}" var="aluno" itemLabel="#{aluno.nome}" itemValue="#{aluno.id}" />
+						</p:selectCheckboxMenu >
+					</h:panelGrid>	
+				</p:fieldset>
+				<br />
+				<p:fieldset style="text-align:center;">
+					<p:button value="Gravar Turma" />
+				</p:fieldset>		
+			</h:form>
+			<br />
+			<br />
+			<h:form id="formTabelaTurmas">
+				<p:panelGrid >
+				    <f:facet name="header">
+				        <p:row>
+				            <p:column colspan="5">Turmas</p:column>
+				        </p:row>
+						<p:row>
+				            <p:column >Alunos</p:column>
+				            <p:column>Professor</p:column>
+				            <p:column>Curso</p:column>
+				        </p:row>				        
+				    </f:facet>
+				    <p:row>
+				    	<p:column >Aluno 1</p:column>
+				    	<p:column rowspan="11" >Professor 1 </p:column>
+				    	<p:column rowspan="11" >Curso 1 </p:column>  	
+				    </p:row>
+				    <p:row>
+        				<p:column>Aluno 2</p:column>
+				    </p:row>				    
+				    <p:row>
+        				<p:column>Aluno 3</p:column>
+				    </p:row>				    
+				    <p:row>
+        				<p:column>Aluno 4</p:column>
+				    </p:row>				    
+				    <p:row>
+        				<p:column>Aluno 5</p:column>
+				    </p:row>				    
+				 </p:panelGrid>
+			</h:form>
+		</ui:define>
 	</ui:composition>
-
 </html>

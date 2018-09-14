@@ -1,0 +1,61 @@
+@charset "ISO-8859-1";
+
+.barra_header {
+	position: absolute;
+	left: 0px; 
+	top: 0px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.rodape {
+	position:absolute;
+	bottom: 0px;
+	background-color: #254189;
+	width: 100%; 
+	height: 18px;  
+	border-top-color: gold;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-bottom: none;
+	border-left: none;
+	border-right: none;	
+	z-index: 0;
+	font-family: verdana;
+	font-size: 10px; 
+}
+	
+body {
+	padding: 0px 0px 0px 0px;
+	margin-bottom: 0px; 
+	margin-top: 0px; 
+	margin-left: 0px; 
+	margin-right: 0px;	 	
+}
+
+.cabecalho {
+	width: 655px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.titulo {
+	font-family: verdana;
+	font-size: 14px;
+	font-weight: bold; 
+	color: #082161; 
+	padding-bottom: 5px;	
+}
+
+.imgCabecalho {
+	float: left;
+	margin-top: 4px;
+	margin-left: 1px;
+}
+
+.barraMenu {
+	float: left;
+	width: 100%;
+	height: 2px;
+	background-color: #FFFFE0;
+}
